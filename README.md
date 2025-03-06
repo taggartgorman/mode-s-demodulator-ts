@@ -1,33 +1,29 @@
 # mode-s-demodulator
 
-A JavaScript module for demodulating and decoding Mode S / ADS-B
-messages from aviation aircrafts.
+A TypeScript module for demodulating and decoding Mode S / ADS-B
+messages from aviation aircrafts. I wrapped Thomas Watson's JavaScript library
+[mode-s-demodulator](https://www.npmjs.com/package/mode-s-demodulator) with
+appropriate types and updated the library to be a CommonJS module.
 
 Mode S is an aviation transponder interrogation mode used by Secondary
 Surveillance Radar (SSR) and Automatic Dependent Surveillance-Broadcast
 (ADS-B) systems.
 
-For an example of this module in use, see
-[AirplaneJS](https://github.com/watson/airplanejs).
-
-[![Build status](https://travis-ci.org/watson/mode-s-demodulator.svg?branch=master)](https://travis-ci.org/watson/mode-s-demodulator)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
-
 ## Installation
 
 ```
-npm install mode-s-demodulator --save
+npm install mode-s-demodulator-ts --save
 ```
 
 ## Usage
 
-```js
-const Demodulator = require('mode-s-demodulator')
+```ts
+include { Demodulator, Message } from 'mode-s-demodulator-ts';
 
 const demodulator = new Demodulator()
 
 // data contains raw IQ samples from an RTL-SDR device
-demodulator.process(data, data.length, function (message) {
+demodulator.process(data, data.length, function (message: Message) {
   // got new Mode S message from an airplane
   console.log(message)
 })
@@ -38,7 +34,7 @@ module to get raw IQ samples that can be processed by this module.
 
 ## API
 
-### `Demodulator.UNIT_FEET`
+### `UNIT_FEET`
 
 A constant indicating that the unit used to encode `message.altitude` is
 feet. Check against `message.unit`.
@@ -46,7 +42,7 @@ feet. Check against `message.unit`.
 `message` is an object given as the first argument to the
 `demodulator.process` or `demodulator.detectMessage` callback.
 
-### `Demodulator.UNIT_METERS`
+### `UNIT_METERS`
 
 A constant indicating that the unit used to encode `message.altitude` is
 meters. Check against `message.unit`.
@@ -54,7 +50,7 @@ meters. Check against `message.unit`.
 `message` is an object given as the first argument to the
 `demodulator.process` or `demodulator.detectMessage` callback.
 
-### `demodulator = new Demodulator([options])`
+### `demodulator = new Demodulator(options?: DemodulatorOptions)`
 
 Initialize a new demodulator object.
 
@@ -64,8 +60,6 @@ Arguments:
 
 The available options are:
 
-- `fixErrors` - Set to `false` to disable automatic error correction
-  (default: `true`)
 - `aggressive` - Set to `true` to use an aggressive error correction
   algorithm (default: `false`)
 - `checkCrc` - Set to `false` to disable checksum validation (default:
@@ -77,7 +71,7 @@ The available options are:
   `process` function. If not provided it's expected that `process` will
   always be called with the same amount of data
 
-### `demodulator.process(data, size, onMsg)`
+### `demodulator.process(data: Buffer, size: number, onMsg: (message: Message) => void)`
 
 A convenience function that takes care of everything related to
 processing the provided `data`.
@@ -93,7 +87,7 @@ Arguments:
 - `onMsg` - Called for each new message detected in `data`. Will be called
   with the message as the only argument.
 
-### `demodulator.computeMagnitudeVector(data, mag, size[, signedInt])`
+### `demodulator.computeMagnitudeVector(data: Buffer, mag: Uint16Array, size: number, signedInt: boolean = false)`
 
 Calculate the magnitude of each sample in the signal.
 
@@ -107,7 +101,7 @@ Arguments:
 - `signedInt` - Optional boolean indicating if the IQ samples are
   encoded as signed integers (default: `false`)
 
-### `demodulator.detectMessage(mag, size, onMsg)`
+### `demodulator.detectMessage(mag: Uint16Array, maglen: number, onMsg: (message: Message) => void)`
 
 Detect Mode S messages in the magnitute array.
 
@@ -120,7 +114,7 @@ Arguments:
 
 ## Acknowledgement
 
-This project is a JavaScript port of the popular
+This project is a TypeScript port of the JavaScript port of the popular
 [dump1090](https://github.com/antirez/dump1090) project by Salvatore
 Sanfilippo. It modularizes the code into separate functions and removes
 all non-essentials, so that only the demodulation and decoding logic is

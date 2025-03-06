@@ -1,24 +1,26 @@
 {
-  "name": "mode-s-demodulator",
-  "version": "1.0.1",
-  "description": "A JavaScript module for demodulating and decoding Mode S / ADS-B messages from aviation aircrafts",
-  "main": "index.js",
+  "name": "mode-s-demodulator-ts",
+  "version": "1.0.0",
+  "description": "A TypeScript module for demodulating and decoding Mode S / ADS-B messages from aviation aircrafts",
+  "main": "index.ts",
   "dependencies": {
     "mode-s-decoder": "^1.0.0",
     "mode-s-msglen": "^1.0.2"
   },
   "devDependencies": {
     "standard": "^10.0.3",
-    "tape": "^4.8.0"
+    "tape": "^4.8.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   },
   "scripts": {
     "pretest": "./test/pretest.sh",
-    "test": "standard && node test/test.js",
+    "test": "standard && ts-node test/test.ts",
     "clean": "rm test/fixture.bin"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/watson/mode-s-demodulator.git"
+    "url": "git+https://github.com/taggartgorman/mode-s-demodulator-ts"
   },
   "keywords": [
     "decode",
@@ -41,14 +43,10 @@
     "1090",
     "1090mhz"
   ],
-  "author": "Thomas Watson <w@tson.dk> (https://twitter.com/wa7son)",
+  "author": "Taggart Gorman <taggartgorman@yahoo.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/watson/mode-s-demodulator/issues"
+    "url": "https://github.com/taggartgorman/mode-s-demodulator-ts"
   },
-  "homepage": "https://github.com/watson/mode-s-demodulator#readme",
-  "coordinates": [
-    55.777706,
-    12.590256
-  ]
+  "homepage": "https://github.com/taggartgorman/mode-s-demodulator-ts#readme"
 }
