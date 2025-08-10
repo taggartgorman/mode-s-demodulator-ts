@@ -2,7 +2,11 @@
   "name": "mode-s-demodulator-ts",
   "version": "1.0.0",
   "description": "A TypeScript module for demodulating and decoding Mode S / ADS-B messages from aviation aircrafts",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "dependencies": {
     "mode-s-decoder": "^1.0.0",
     "mode-s-msglen": "^1.0.2"
@@ -14,9 +18,11 @@
     "typescript": "^5.8.2"
   },
   "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
     "pretest": "./test/pretest.sh",
     "test": "standard && ts-node test/test.ts",
-    "clean": "rm test/fixture.bin"
+    "clean": "rm test/fixture.bin && rm -rf dist"
   },
   "repository": {
     "type": "git",

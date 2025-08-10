@@ -1,0 +1,53 @@
+export type DemodulatorOptions = {
+    aggressive?: boolean;
+    checkCrc?: boolean;
+    crcOnly?: boolean;
+    mag?: Uint16Array | null;
+};
+export type Message = {
+    msg: any;
+    msgbits: number;
+    msgtype: number;
+    crcOk: boolean;
+    crc: number;
+    errorbit: number;
+    icao: number;
+    phaseCorrected: boolean;
+    ca: number;
+    metype: number;
+    mesub: number;
+    headingIsValid: boolean;
+    heading: number;
+    aircraftType: number;
+    fflag: number;
+    tflag: number;
+    rawLatitude: number;
+    rawLongitude: number;
+    callsign: string;
+    ewDir: number;
+    ewVelocity: number;
+    nsDir: number;
+    nsVelocity: number;
+    vertRateSource: number;
+    vertRateSign: number;
+    vertRate: number;
+    speed: number;
+    fs: number;
+    dr: number;
+    um: number;
+    identity: number;
+    altitude: number;
+    unit: number;
+};
+export declare const UNIT_FEET: any;
+export declare const UNIT_METERS: any;
+export declare class Demodulator {
+    private options;
+    private decoder;
+    private MAG_LUT;
+    private _mag;
+    constructor(options?: DemodulatorOptions);
+    process(data: Buffer, size: number, onMsg: (message: Message) => void): void;
+    computeMagnitudeVector(data: Buffer, mag: Uint16Array, size: number, signedInt?: boolean): void;
+    detectMessage(mag: Uint16Array, maglen: number, onMsg: (message: Message) => void): void;
+}
